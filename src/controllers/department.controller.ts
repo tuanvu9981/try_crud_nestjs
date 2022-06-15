@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Res, HttpStatus, Put } from '@nestjs/common';
 import { DepartmentService } from '../services/department.service';
 import { DepartmentDto } from '../dto/department.dto';
 
@@ -23,15 +23,15 @@ export class DepartmentController {
   }
 
   @Get('/:id')
-  async findOne(@Param('id') id: number, @Res() response) {
+  async findOne(@Param('id') id: string, @Res() response) {
     const department = await this.departmentService.findOne(id);
     return response.status(HttpStatus.OK).json({
       department
     })
   }
 
-  @Patch('/:id')
-  async update(@Res() response, @Param('id') id: number, @Body() departmentDto: DepartmentDto) {
+  @Put('/:id')
+  async update(@Res() response, @Param('id') id: string, @Body() departmentDto: DepartmentDto) {
     const updatedDepartment = await this.departmentService.update(id, departmentDto);
     return response.status(HttpStatus.OK).json({
       updatedDepartment
@@ -39,7 +39,7 @@ export class DepartmentController {
   }
 
   @Delete('/:id')
-  async remove(@Param('id') id: number, @Res() response) {
+  async remove(@Param('id') id: string, @Res() response) {
     const deletedDepartment = await this.departmentService.remove(id);
     return response.status(HttpStatus.OK).json({
       deletedDepartment

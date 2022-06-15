@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { DepartmentDto } from '../dto/department.dto';
 import { Department, DepartmentDocument } from '../entities/department.entity';
 
@@ -14,7 +14,7 @@ export class DepartmentService {
   }
 
   create(departmentDto: DepartmentDto): Promise<DepartmentDocument> {
-    const newDepartment = new this.departmentModel(DepartmentDto);
+    const newDepartment = new this.departmentModel(departmentDto);
     return newDepartment.save();
   }
 
@@ -22,15 +22,18 @@ export class DepartmentService {
     return await this.departmentModel.find().exec();
   }
 
-  async findOne(id: number): Promise<DepartmentDocument> {
-    return await this.departmentModel.findById(id).exec();
+  async findOne(id: string): Promise<DepartmentDocument> {
+    const object_id = new mongoose.Types.ObjectId(id);
+    return await this.departmentModel.findById(object_id).exec();
   }
 
-  async update(id: number, departmentDto: DepartmentDto): Promise<DepartmentDocument> {
-    return await this.departmentModel.findByIdAndUpdate(id, departmentDto, { new: true });
+  async update(id: string, departmentDto: DepartmentDto): Promise<DepartmentDocument> {
+    const object_id = new mongoose.Types.ObjectId(id);
+    return await this.departmentModel.findByIdAndUpdate(object_id, departmentDto, { new: true });
   }
 
-  async remove(id: number): Promise<DepartmentDocument> {
-    return await this.departmentModel.findByIdAndDelete(id);
+  async remove(id: string): Promise<DepartmentDocument> {
+    const object_id = new mongoose.Types.ObjectId(id);
+    return await this.departmentModel.findByIdAndDelete(object_id);
   }
 }

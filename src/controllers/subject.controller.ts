@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { SubjectService } from '../services/subject.service';
 import { SubjectDto } from '../dto/subject.dto';
 
@@ -23,16 +23,16 @@ export class SubjectController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number, @Res() response) {
+  async findOne(@Param('id') id: string, @Res() response) {
     const subject = await this.subjectService.findOne(id);
     return response.status(HttpStatus.OK).json({
       subject
     });
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() subjectDto: SubjectDto,
     @Res() response) {
     const updatedSubject = await this.subjectService.update(id, subjectDto);
@@ -42,7 +42,7 @@ export class SubjectController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number, @Res() response) {
+  async remove(@Param('id') id: string, @Res() response) {
     const deletedSubject = await this.subjectService.remove(id);
     return response.status(HttpStatus.OK).json({
       deletedSubject
