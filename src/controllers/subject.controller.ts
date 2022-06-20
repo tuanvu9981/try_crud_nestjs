@@ -1,16 +1,28 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { SubjectService } from '../services/subject.service';
 import { SubjectDto } from '../dto/subject.dto';
+import { DepartmentService } from 'src/services/department.service';
 
 @Controller('subject')
 export class SubjectController {
-  constructor(private readonly subjectService: SubjectService) { }
+  constructor(
+    private subjectService: SubjectService,
+    private departmentService: DepartmentService
+  ) { }
 
   @Post()
   async create(@Body() subjectDto: SubjectDto, @Res() response) {
     const newSubject = await this.subjectService.create(subjectDto);
+    // console.log("🚀 ~ file: subject.controller.ts ~ line 16 ~ SubjectController ~ create ~ newSubject", newSubject)
+    // Turbo Console Nestjs --> Shortcut: 
+
+    const newDepartmentSubjects = await this.departmentService.updateListSubject(
+      subjectDto.departmentId, newSubject._id
+    );
+
     return response.status(HttpStatus.CREATED).json({
-      newSubject
+      newSubject,
+      newDepartmentSubjects
     });
   }
 

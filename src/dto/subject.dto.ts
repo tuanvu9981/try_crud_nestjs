@@ -1,8 +1,6 @@
-import { Date } from "mongoose";
-import { Department } from "src/entities/department.entity";
+import { Date, ObjectId } from "mongoose";
 
 export class SubjectDto {
-    name: string;
     createdDate?: Date;
-    department: Department
+    departmentId: string;
 }

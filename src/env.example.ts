@@ -1,4 +1,6 @@
-const username = '<YOUR USERNAME>';
-const password = '<YOUR PASSWORD>';
+const username:string = '<YOUR USERNAME>';
+const password:string = '<YOUR PASSWORD>';
 
-export const URI = `mongodb+srv://${username}:${password}@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+export const URI:string = `mongodb+srv://${username}:${password}@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+
+

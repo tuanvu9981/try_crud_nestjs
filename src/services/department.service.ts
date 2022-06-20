@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, ObjectId } from 'mongoose';
 import { DepartmentDto } from '../dto/department.dto';
 import { Department, DepartmentDocument } from '../entities/department.entity';
 
@@ -36,4 +36,28 @@ export class DepartmentService {
     const object_id = new mongoose.Types.ObjectId(id);
     return await this.departmentModel.findByIdAndDelete(object_id);
   }
+
+  async updateListSubject(departmentId: string, subjectId: any): Promise<DepartmentDocument> {
+
+    // console.log(`departmentId: ${departmentId}`);
+    // console.log(`subjectId: ${subjectId}`);
+    const dpmObjectId = new mongoose.Types.ObjectId(departmentId);
+    const sbjObjectId = new mongoose.Types.ObjectId(subjectId);
+
+    const oldDepartment = await this.departmentModel.findById(dpmObjectId).exec();
+    const newDepartment = new DepartmentDto(oldDepartment);
+    newDepartment.subjects.push(sbjObjectId);
+
+    // console.log(newDepartment);
+
+    // const newDepartment = { ...oldDepartment, subjects: [...oldDepartment.subjects, sbjObjectId] };
+    // console.log("🚀 ~ file: department.service.ts ~ line 51 ~ DepartmentService ~ updateListSubject ~ newDepartment", newDepartment)
+    return await this.departmentModel.findByIdAndUpdate(
+      dpmObjectId,
+      newDepartment,
+      { new: true }
+    );
+  }
+
+
 }
