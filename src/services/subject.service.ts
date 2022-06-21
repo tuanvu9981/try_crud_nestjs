@@ -3,15 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { SubjectDto } from '../dto/subject.dto';
 import { Subject, SubjectDocument } from '../entities/subject.entity';
+import { IBaseService } from './ibase.service';
 
 @Injectable()
-export class SubjectService {
-
+export class SubjectService implements IBaseService {
   constructor(
-    @InjectModel('subject') private readonly subjectModel: Model<SubjectDocument>
-  ) {
-
-  }
+    @InjectModel('subject')
+    private readonly subjectModel: Model<SubjectDocument>,
+  ) {}
 
   async create(subjectDto: SubjectDto): Promise<Subject> {
     const newSubject = new this.subjectModel(subjectDto);
@@ -29,7 +28,9 @@ export class SubjectService {
 
   async update(id: string, subjectDto: SubjectDto): Promise<Subject> {
     const object_id = new mongoose.Types.ObjectId(id);
-    return await this.subjectModel.findByIdAndUpdate(object_id, subjectDto, { new: true });
+    return await this.subjectModel.findByIdAndUpdate(object_id, subjectDto, {
+      new: true,
+    });
   }
 
   async remove(id: string): Promise<Subject> {
