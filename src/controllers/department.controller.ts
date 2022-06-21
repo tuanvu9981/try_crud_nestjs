@@ -63,4 +63,14 @@ export class DepartmentController implements IBaseController {
       deletedDepartment,
     });
   }
+
+  @Get('/:id/subjects')
+  async findAllSubject(@Param('id') id: string, @Res() response) {
+    const subjects = await this.departmentService.getAllSubjectsInDepartment(
+      id,
+    );
+    return response.status(HttpStatus.OK).json({
+      subjects,
+    });
+  }
 }

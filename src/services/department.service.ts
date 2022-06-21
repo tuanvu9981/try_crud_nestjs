@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, ObjectId } from 'mongoose';
+import { SubjectDocument } from 'src/entities/subject.entity';
 import { DepartmentDto } from '../dto/department.dto';
 import { Department, DepartmentDocument } from '../entities/department.entity';
 import { IBaseService } from './ibase.service';
@@ -10,6 +11,7 @@ export class DepartmentService implements IBaseService {
   constructor(
     @InjectModel('department')
     private departmentModel: Model<DepartmentDocument>,
+    private subjectModel: Model<SubjectDocument>,
   ) {}
 
   create(departmentDto: DepartmentDto): Promise<DepartmentDocument> {
@@ -67,5 +69,17 @@ export class DepartmentService implements IBaseService {
       newDepartment,
       { new: true },
     );
+  }
+
+  async getAllSubjectsInDepartment(id: string): Promise<SubjectDocument[]> {
+    const subjectList = [];
+    // const departmentObjId = new mongoose.Types.ObjectId(id);
+    const department = await this.departmentModel.findById(id).exec();
+
+    for (const element of department.subjects) {
+      const subject = await this.subjectModel.findById(element).exec();
+      subjectList.push(subject);
+    }
+    return subjectList;
   }
 }

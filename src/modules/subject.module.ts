@@ -9,11 +9,11 @@ import { DepartmentService } from 'src/services/department.service';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      {name: 'subject', schema: SubjectSchema},
-      {name: 'department', schema: DepartmentSchema}
+      { name: 'subject', schema: SubjectSchema },
+      { name: 'department', schema: DepartmentSchema },
     ]),
   ],
   controllers: [SubjectController],
-  providers: [SubjectService, DepartmentService]
+  providers: [SubjectService, DepartmentService],
 })
 export class SubjectModule {}

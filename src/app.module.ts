@@ -7,12 +7,8 @@ import { DepartmentModule } from './modules/department.module';
 import { URI } from './env';
 
 @Module({
-  imports: [
-    MongooseModule.forRoot(URI),
-    SubjectModule,
-    DepartmentModule,
-  ],
+  imports: [MongooseModule.forRoot(URI), SubjectModule, DepartmentModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
