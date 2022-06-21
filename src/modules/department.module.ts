@@ -11,9 +11,9 @@ import { SubjectModule } from './subject.module';
   imports: [
     MongooseModule.forFeature([
       { name: 'department', schema: DepartmentSchema },
-      // { name: 'subject', schema: SubjectSchema },
+      { name: 'subject', schema: SubjectSchema },
     ]),
-    SubjectModule,
+    // SubjectModule, --> UNNECESSARY
   ],
   controllers: [DepartmentController],
   providers: [DepartmentService],

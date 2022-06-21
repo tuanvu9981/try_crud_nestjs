@@ -11,6 +11,8 @@ export class DepartmentService implements IBaseService {
   constructor(
     @InjectModel('department')
     private departmentModel: Model<DepartmentDocument>,
+
+    @InjectModel('subject') // OMIT --> IMMEDIATELY WRONG
     private subjectModel: Model<SubjectDocument>,
   ) {}
 
@@ -72,7 +74,7 @@ export class DepartmentService implements IBaseService {
   }
 
   async getAllSubjectsInDepartment(id: string): Promise<SubjectDocument[]> {
-    const subjectList = [];
+    const subjectList:SubjectDocument[] = [];
     // const departmentObjId = new mongoose.Types.ObjectId(id);
     const department = await this.departmentModel.findById(id).exec();
 
